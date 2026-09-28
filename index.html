@@ -42,475 +42,25 @@ button{
 button:hover{opacity:.9}
 .option{
   display:block;
-  padding:12px;
-  margin:8px 0;
-  border:1px solid #ccc;
-  border-radius:8px;
-  cursor:pointer;
-}
-.option:hover{background:#eef4ff}
-.correct{
-  background:#d8f5d0;
-  border-color:green;
-}
-.wrong{
-  background:#ffdada;
-  border-color:red;
-}
-.explanation{
-  margin-top:15px;
-  padding:12px;
-  background:#fff7d6;
-  border-radius:8px;
-}
-.progress{
-  margin-bottom:15px;
-  font-weight:bold;
-}
-#test,#result{display:none}
-.result{
-  text-align:center;
-  padding:20px;
-}
-.score{
-  font-size:28px;
-  font-weight:bold;
-  color:#173b73;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>Homeostasis Test</h1>
-<div class="by">Prepared by <b>Naila Jamari</b></div>
-
-<div id="start">
-  <h2>Student Information</h2>
-  <input id="studentName" placeholder="Enter your name">
-  <br><br>
-  <button onclick="startTest()">Start Test</button>
-</div>
-
-<div id="test">
-  <div class="progress" id="progress"></div>
-  <h2 id="question"></h2>
-  <div id="options"></div>
-  <div id="feedback"></div>
-  <br>
-  <button id="nextBtn" onclick="nextQuestion()" style="display:none">
-    Next Question
-  </button>
-</div>
-
-<div id="result">
-  <div class="result">
-    <h1>Test Complete 🎉</h1>
-    <h2 id="studentResult"></h2>
-    <div class="score" id="score"></div>
-    <p id="percentage"></p>
-    <button onclick="location.reload()">Restart Test</button>
-  </div>
-</div>
-
-</div>
-
-<script>
-
-const questions = [
-
-{
-q:"What is homeostasis?",
-o:["Maintenance of a stable internal environment","Growth of an organism","Movement of the body","Production of energy"],
-a:0,
-e:"Homeostasis is the maintenance of a relatively stable internal environment despite changes in the external environment."
-},
-
-{
-q:"Which system plays an important role in maintaining homeostasis?",
-o:["Nervous system","Digestive system only","Skeletal system only","Reproductive system only"],
-a:0,
-e:"The nervous system detects changes and coordinates rapid responses that help maintain homeostasis."
-},
-
-{
-q:"Which organ is mainly responsible for regulating body temperature?",
-o:["Skin","Stomach","Pancreas","Small intestine"],
-a:0,
-e:"The skin helps regulate body temperature through sweating and changes in blood flow."
-},
-
-{
-q:"What is the normal internal temperature of a healthy human approximately?",
-o:["37°C","25°C","45°C","10°C"],
-a:0,
-e:"Normal human core body temperature is approximately 37°C, although it can vary slightly."
-},
-
-{
-q:"Which part of the brain acts as an important temperature-regulating center?",
-o:["Hypothalamus","Cerebellum","Medulla","Spinal cord"],
-a:0,
-e:"The hypothalamus monitors and regulates body temperature."
-},
-
-{
-q:"What happens when body temperature becomes too high?",
-o:["Sweating increases","Shivering increases","Blood vessels constrict only","Urine production stops"],
-a:0,
-e:"Sweating increases heat loss through evaporation and helps cool the body."
-},
-
-{
-q:"What happens when the body becomes too cold?",
-o:["Shivering may occur","Sweating increases greatly","Blood vessels always dilate","Heart stops"],
-a:0,
-e:"Shivering produces heat through rapid muscle contractions."
-},
-
-{
-q:"What is negative feedback?",
-o:["A response that reverses a change","A response that always increases a change","No response to a change","Permanent change in the body"],
-a:0,
-e:"Negative feedback counteracts a change and brings the body back toward its normal range."
-},
-
-{
-q:"Which is an example of homeostasis?",
-o:["Regulation of blood glucose","Hair growth","Bone growth","Cell division"],
-a:0,
-e:"Regulation of blood glucose concentration is an important homeostatic process."
-},
-
-{
-q:"Which hormone lowers blood glucose concentration?",
-o:["Insulin","Glucagon","Adrenaline","Thyroxine"],
-a:0,
-e:"Insulin promotes uptake and storage of glucose, lowering blood glucose concentration."
-},
-
-{
-q:"Which hormone increases blood glucose concentration?",
-o:["Glucagon","Insulin","Melatonin","Estrogen"],
-a:0,
-e:"Glucagon causes the liver to release glucose into the blood."
-},
-
-{
-q:"Which organ produces insulin?",
-o:["Pancreas","Liver","Kidney","Heart"],
-a:0,
-e:"The beta cells of the pancreas produce insulin."
-},
-
-{
-q:"What is the main function of the kidneys in homeostasis?",
-o:["Regulate water and ion balance","Pump blood","Digest proteins","Produce bile"],
-a:0,
-e:"The kidneys regulate water, ions, and remove nitrogenous waste from the blood."
-},
-
-{
-q:"What is osmoregulation?",
-o:["Regulation of water and solute balance","Regulation of body movement","Digestion of food","Production of antibodies"],
-a:0,
-e:"Osmoregulation maintains the balance of water and dissolved substances in the body."
-},
-
-{
-q:"Which hormone increases water reabsorption by the kidneys?",
-o:["ADH","Insulin","Glucagon","Thyroxine"],
-a:0,
-e:"ADH, or antidiuretic hormone, increases water reabsorption in the kidneys."
-},
-
-{
-q:"Where is ADH released into the blood?",
-o:["Posterior pituitary gland","Pancreas","Thyroid gland","Adrenal cortex"],
-a:0,
-e:"ADH is released from the posterior pituitary into the bloodstream."
-},
-
-{
-q:"What happens when the body is dehydrated?",
-o:["ADH secretion increases","ADH secretion stops","Urine becomes more dilute","Water loss increases"],
-a:0,
-e:"During dehydration, ADH increases water reabsorption and reduces water loss in urine."
-},
-
-{
-q:"What type of urine is usually produced when ADH levels are high?",
-o:["Concentrated urine","Very dilute urine","No urine","Pure blood"],
-a:0,
-e:"High ADH causes more water to be reabsorbed, producing concentrated urine."
-},
-
-{
-q:"Which organs remove urea from the blood?",
-o:["Kidneys","Lungs","Heart","Brain"],
-a:0,
-e:"The kidneys filter urea from the blood and excrete it in urine."
-},
-
-{
-q:"Urea is produced mainly from the breakdown of:",
-o:["Amino acids","Fatty acids","Minerals","Water"],
-a:0,
-e:"The liver converts toxic ammonia, produced from amino acid breakdown, into urea."
-},
-
-{
-q:"Which organ converts ammonia into urea?",
-o:["Liver","Kidney","Heart","Lung"],
-a:0,
-e:"The liver converts ammonia into the less toxic compound urea."
-},
-
-{
-q:"Which substance is removed from the body by the lungs?",
-o:["Carbon dioxide","Urea","Glucose","Bile"],
-a:0,
-e:"The lungs remove carbon dioxide, a waste product of cellular respiration."
-},
-
-{
-q:"What happens to breathing rate when carbon dioxide levels rise?",
-o:["Breathing rate increases","Breathing stops","Breathing becomes permanently slower","No change occurs"],
-a:0,
-e:"High carbon dioxide levels stimulate an increase in breathing rate to remove excess CO₂."
-},
-
-{
-q:"Which organ system removes carbon dioxide?",
-o:["Respiratory system","Digestive system","Skeletal system","Reproductive system"],
-a:0,
-e:"The respiratory system removes carbon dioxide through the lungs."
-},
-
-{
-q:"What is the main purpose of sweating?",
-o:["Cooling the body","Increasing blood glucose","Digesting food","Producing red blood cells"],
-a:0,
-e:"Sweat evaporates from the skin and removes heat from the body."
-},
-
-{
-q:"What happens to skin blood vessels when the body is too hot?",
-o:["They dilate","They always constrict","They disappear","They stop carrying blood"],
-a:0,
-e:"Vasodilation increases blood flow near the skin surface, helping heat escape."
-},
-
-{
-q:"What happens to skin blood vessels when the body is cold?",
-o:["They constrict","They dilate greatly","They burst","They stop existing"],
-a:0,
-e:"Vasoconstriction reduces blood flow near the skin and decreases heat loss."
-},
-
-{
-q:"What is vasodilation?",
-o:["Widening of blood vessels","Narrowing of blood vessels","Formation of blood cells","Breaking down of glucose"],
-a:0,
-e:"Vasodilation means the widening of blood vessels."
-},
-
-{
-q:"What is vasoconstriction?",
-o:["Narrowing of blood vessels","Widening of blood vessels","Production of sweat","Digestion"],
-a:0,
-e:"Vasoconstriction means narrowing of blood vessels."
-},
-
-{
-q:"Which structure detects changes in the internal environment?",
-o:["Receptor","Effector","Hormone only","Bone"],
-a:0,
-e:"Receptors detect changes or stimuli in the internal or external environment."
-},
-
-{
-q:"What is an effector?",
-o:["A structure that produces a response","A structure that detects a stimulus","A type of blood cell","A digestive enzyme"],
-a:0,
-e:"An effector, such as a muscle or gland, carries out the response."
-},
-
-{
-q:"Which is an example of an effector?",
-o:["Muscle","Receptor","Brain only","DNA"],
-a:0,
-e:"Muscles can act as effectors by producing a physical response."
-},
-
-{
-q:"Which part of a homeostatic system compares conditions with the desired level?",
-o:["Control center","Receptor only","Effector only","Blood cell"],
-a:0,
-e:"The control center receives information and coordinates an appropriate response."
-},
-
-{
-q:"Which of these is a control center for body temperature?",
-o:["Hypothalamus","Kidney","Stomach","Pancreas"],
-a:0,
-e:"The hypothalamus acts as a major control center for thermoregulation."
-},
-
-{
-q:"What is thermoregulation?",
-o:["Regulation of body temperature","Regulation of blood sugar only","Regulation of digestion","Regulation of bone growth"],
-a:0,
-e:"Thermoregulation is the maintenance of body temperature within a suitable range."
-},
-
-{
-q:"Which process helps produce heat in a cold body?",
-o:["Shivering","Sweating","Vasodilation","Rapid evaporation"],
-a:0,
-e:"Shivering produces heat through repeated involuntary muscle contractions."
-},
-
-{
-q:"Which process helps lose heat?",
-o:["Sweating","Shivering","Vasoconstriction","Reduced blood flow to skin"],
-a:0,
-e:"Sweating helps cool the body through evaporation."
-},
-
-{
-q:"Why is homeostasis important?",
-o:["It keeps conditions suitable for cells","It stops all body changes","It prevents growth","It stops metabolism"],
-a:0,
-e:"Cells need stable conditions such as temperature, pH, water, and glucose levels to function properly."
-},
-
-{
-q:"Which blood component helps transport hormones?",
-o:["Plasma","Platelets only","Red blood cells only","Bone"],
-a:0,
-e:"Many hormones are transported through the blood plasma."
-},
-
-{
-q:"Which hormone is produced by the thyroid gland and helps regulate metabolic rate?",
-o:["Thyroxine","Insulin","ADH","Glucagon"],
-a:0,
-e:"Thyroxine helps regulate the body's metabolic rate."
-},
-
-{
-q:"Which gland produces thyroxine?",
-o:["Thyroid gland","Pancreas","Pituitary only","Adrenal medulla"],
-a:0,
-e:"The thyroid gland produces thyroxine."
-},
-
-{
-q:"Which mineral is needed to make thyroid hormones?",
-o:["Iodine","Calcium","Iron only","Sodium only"],
-a:0,
-e:"Iodine is required for the production of thyroid hormones."
-},
-
-{
-q:"What can iodine deficiency cause?",
-o:["Goitre","Diabetes mellitus","Dehydration","Fever"],
-a:0,
-e:"Iodine deficiency can cause enlargement of the thyroid gland, known as a goitre."
-},
-
-{
-q:"Which hormone is associated with the fight-or-flight response?",
-o:["Adrenaline","Insulin","ADH","Thyroxine"],
-a:0,
-e:"Adrenaline prepares the body for rapid action during stressful situations."
-},
-
-{
-q:"Which gland releases adrenaline?",
-o:["Adrenal glands","Thyroid gland","Pancreas","Kidneys"],
-a:0,
-e:"The adrenal glands release adrenaline."
-},
-
-{
-q:"What does adrenaline generally do to heart rate?",
-o:["Increases it","Stops it","Always decreases it","Has no possible effect"],
-a:0,
-e:"Adrenaline generally increases heart rate to deliver more blood to active tissues."
-},
-
-{
-q:"Which condition involves abnormally high blood glucose levels?",
-o:["Diabetes mellitus","Anaemia","Goitre","Dehydration"],
-a:0,
-e:"Diabetes mellitus is characterized by chronically elevated blood glucose levels."
-},
-
-{
-q:"What is the role of insulin after a meal?",
-o:["Helps lower blood glucose","Raises blood glucose","Stops digestion","Removes
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Homeostasis Test</title>
-
-<style>
-body{
-  font-family:Arial,sans-serif;
-  background:#f2f6ff;
-  margin:0;
-  padding:20px;
-}
-.container{
-  max-width:800px;
-  margin:auto;
-  background:white;
-  padding:25px;
-  border-radius:15px;
-  box-shadow:0 4px 15px #bbb;
-}
-h1{text-align:center;color:#173b73}
-.by{text-align:center;color:#555;margin-bottom:20px}
-input{
   width:100%;
-  padding:12px;
   box-sizing:border-box;
-  border:1px solid #aaa;
-  border-radius:8px;
-  font-size:16px;
-}
-button{
-  padding:12px 20px;
-  border:0;
-  border-radius:8px;
-  background:#173b73;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-}
-button:hover{opacity:.9}
-.option{
-  display:block;
   padding:12px;
   margin:8px 0;
   border:1px solid #ccc;
   border-radius:8px;
+  background:white;
+  color:#111;
+  text-align:left;
   cursor:pointer;
 }
 .option:hover{background:#eef4ff}
 .correct{
-  background:#d8f5d0;
-  border-color:green;
+  background:#d8f5d0 !important;
+  border-color:green !important;
 }
 .wrong{
-  background:#ffdada;
-  border-color:red;
+  background:#ffdada !important;
+  border-color:red !important;
 }
 .explanation{
   margin-top:15px;
@@ -576,338 +126,490 @@ button:hover{opacity:.9}
 
 const questions = [
 
-{
-q:"What is homeostasis?",
-o:["Maintenance of a stable internal environment","Growth of an organism","Movement of the body","Production of energy"],
-a:0,
-e:"Homeostasis is the maintenance of a relatively stable internal environment despite changes in the external environment."
-},
+["What is homeostasis?",
+"Maintenance of a stable internal environment",
+"Growth of an organism","Movement of the body","Production of energy",
+"Homeostasis is the maintenance of a relatively stable internal environment."],
 
-{
-q:"Which system plays an important role in maintaining homeostasis?",
-o:["Nervous system","Digestive system only","Skeletal system only","Reproductive system only"],
-a:0,
-e:"The nervous system detects changes and coordinates rapid responses that help maintain homeostasis."
-},
+["Which system plays an important role in maintaining homeostasis?",
+"Nervous system","Skeletal system only","Reproductive system only","Digestive system only",
+"The nervous system detects changes and coordinates responses."],
 
-{
-q:"Which organ is mainly responsible for regulating body temperature?",
-o:["Skin","Stomach","Pancreas","Small intestine"],
-a:0,
-e:"The skin helps regulate body temperature through sweating and changes in blood flow."
-},
+["Which organ helps regulate body temperature?",
+"Skin","Stomach","Pancreas","Small intestine",
+"The skin helps regulate temperature through sweating and blood flow."],
 
-{
-q:"What is the normal internal temperature of a healthy human approximately?",
-o:["37°C","25°C","45°C","10°C"],
-a:0,
-e:"Normal human core body temperature is approximately 37°C, although it can vary slightly."
-},
+["Approximately what is normal human body temperature?",
+"37°C","25°C","45°C","10°C",
+"Normal human core temperature is approximately 37°C."],
 
-{
-q:"Which part of the brain acts as an important temperature-regulating center?",
-o:["Hypothalamus","Cerebellum","Medulla","Spinal cord"],
-a:0,
-e:"The hypothalamus monitors and regulates body temperature."
-},
+["Which part of the brain regulates body temperature?",
+"Hypothalamus","Cerebellum","Spinal cord","Medulla",
+"The hypothalamus is an important temperature-regulating center."],
 
-{
-q:"What happens when body temperature becomes too high?",
-o:["Sweating increases","Shivering increases","Blood vessels constrict only","Urine production stops"],
-a:0,
-e:"Sweating increases heat loss through evaporation and helps cool the body."
-},
+["What happens when body temperature becomes too high?",
+"Sweating increases","Shivering increases","Sweating stops","Blood flow to skin decreases",
+"Sweating increases heat loss through evaporation."],
 
-{
-q:"What happens when the body becomes too cold?",
-o:["Shivering may occur","Sweating increases greatly","Blood vessels always dilate","Heart stops"],
-a:0,
-e:"Shivering produces heat through rapid muscle contractions."
-},
+["What happens when the body becomes too cold?",
+"Shivering may occur","Sweating increases","Blood vessels always dilate","Heart stops",
+"Shivering produces heat through muscle contractions."],
 
-{
-q:"What is negative feedback?",
-o:["A response that reverses a change","A response that always increases a change","No response to a change","Permanent change in the body"],
-a:0,
-e:"Negative feedback counteracts a change and brings the body back toward its normal range."
-},
+["What is negative feedback?",
+"A response that reverses a change","A response that always increases a change","No response","Permanent body change",
+"Negative feedback counteracts a change and returns conditions toward normal."],
 
-{
-q:"Which is an example of homeostasis?",
-o:["Regulation of blood glucose","Hair growth","Bone growth","Cell division"],
-a:0,
-e:"Regulation of blood glucose concentration is an important homeostatic process."
-},
+["Which is an example of homeostasis?",
+"Regulation of blood glucose","Hair growth","Bone growth","Cell division",
+"Blood glucose regulation is an important homeostatic process."],
 
-{
-q:"Which hormone lowers blood glucose concentration?",
-o:["Insulin","Glucagon","Adrenaline","Thyroxine"],
-a:0,
-e:"Insulin promotes uptake and storage of glucose, lowering blood glucose concentration."
-},
+["Which hormone lowers blood glucose?",
+"Insulin","Glucagon","Adrenaline","Thyroxine",
+"Insulin helps cells take up glucose and lowers blood glucose."],
 
-{
-q:"Which hormone increases blood glucose concentration?",
-o:["Glucagon","Insulin","Melatonin","Estrogen"],
-a:0,
-e:"Glucagon causes the liver to release glucose into the blood."
-},
+["Which hormone raises blood glucose?",
+"Glucagon","Insulin","Melatonin","Estrogen",
+"Glucagon stimulates the release of glucose into the blood."],
 
-{
-q:"Which organ produces insulin?",
-o:["Pancreas","Liver","Kidney","Heart"],
-a:0,
-e:"The beta cells of the pancreas produce insulin."
-},
+["Which organ produces insulin?",
+"Pancreas","Liver","Kidney","Heart",
+"Beta cells of the pancreas produce insulin."],
 
-{
-q:"What is the main function of the kidneys in homeostasis?",
-o:["Regulate water and ion balance","Pump blood","Digest proteins","Produce bile"],
-a:0,
-e:"The kidneys regulate water, ions, and remove nitrogenous waste from the blood."
-},
+["What is an important homeostatic function of the kidneys?",
+"Regulating water and ion balance","Pumping blood","Digesting proteins","Producing bile",
+"The kidneys regulate water, ions and remove nitrogenous wastes."],
 
-{
-q:"What is osmoregulation?",
-o:["Regulation of water and solute balance","Regulation of body movement","Digestion of food","Production of antibodies"],
-a:0,
-e:"Osmoregulation maintains the balance of water and dissolved substances in the body."
-},
+["What is osmoregulation?",
+"Regulation of water and solute balance","Regulation of movement","Digestion of food","Production of antibodies",
+"Osmoregulation maintains water and dissolved-solute balance."],
 
-{
-q:"Which hormone increases water reabsorption by the kidneys?",
-o:["ADH","Insulin","Glucagon","Thyroxine"],
-a:0,
-e:"ADH, or antidiuretic hormone, increases water reabsorption in the kidneys."
-},
+["Which hormone increases water reabsorption by the kidneys?",
+"ADH","Insulin","Glucagon","Thyroxine",
+"ADH increases water reabsorption in the kidneys."],
 
-{
-q:"Where is ADH released into the blood?",
-o:["Posterior pituitary gland","Pancreas","Thyroid gland","Adrenal cortex"],
-a:0,
-e:"ADH is released from the posterior pituitary into the bloodstream."
-},
+["Where is ADH released into the blood?",
+"Posterior pituitary gland","Pancreas","Thyroid gland","Adrenal cortex",
+"ADH is released from the posterior pituitary."],
 
-{
-q:"What happens when the body is dehydrated?",
-o:["ADH secretion increases","ADH secretion stops","Urine becomes more dilute","Water loss increases"],
-a:0,
-e:"During dehydration, ADH increases water reabsorption and reduces water loss in urine."
-},
+["What happens to ADH secretion during dehydration?",
+"It increases","It stops","It becomes zero permanently","It has no relationship",
+"Dehydration stimulates increased ADH secretion."],
 
-{
-q:"What type of urine is usually produced when ADH levels are high?",
-o:["Concentrated urine","Very dilute urine","No urine","Pure blood"],
-a:0,
-e:"High ADH causes more water to be reabsorbed, producing concentrated urine."
-},
+["What type of urine is produced when ADH is high?",
+"Concentrated urine","Very dilute urine","Pure blood","No urine",
+"High ADH causes more water to be reabsorbed, producing concentrated urine."],
 
-{
-q:"Which organs remove urea from the blood?",
-o:["Kidneys","Lungs","Heart","Brain"],
-a:0,
-e:"The kidneys filter urea from the blood and excrete it in urine."
-},
+["Which organs remove urea from the blood?",
+"Kidneys","Lungs","Heart","Brain",
+"The kidneys filter urea from the blood and excrete it in urine."],
 
-{
-q:"Urea is produced mainly from the breakdown of:",
-o:["Amino acids","Fatty acids","Minerals","Water"],
-a:0,
-e:"The liver converts toxic ammonia, produced from amino acid breakdown, into urea."
-},
+["Urea is produced mainly from the breakdown of:",
+"Amino acids","Fatty acids","Minerals","Water",
+"Urea is produced from nitrogenous waste resulting from amino acid breakdown."],
 
-{
-q:"Which organ converts ammonia into urea?",
-o:["Liver","Kidney","Heart","Lung"],
-a:0,
-e:"The liver converts ammonia into the less toxic compound urea."
-},
+["Which organ converts ammonia into urea?",
+"Liver","Kidney","Heart","Lung",
+"The liver converts ammonia into the less toxic urea."],
 
-{
-q:"Which substance is removed from the body by the lungs?",
-o:["Carbon dioxide","Urea","Glucose","Bile"],
-a:0,
-e:"The lungs remove carbon dioxide, a waste product of cellular respiration."
-},
+["Which waste product is removed by the lungs?",
+"Carbon dioxide","Urea","Glucose","Bile",
+"The lungs remove carbon dioxide from the body."],
 
-{
-q:"What happens to breathing rate when carbon dioxide levels rise?",
-o:["Breathing rate increases","Breathing stops","Breathing becomes permanently slower","No change occurs"],
-a:0,
-e:"High carbon dioxide levels stimulate an increase in breathing rate to remove excess CO₂."
-},
+["What happens when carbon dioxide levels in blood rise?",
+"Breathing rate increases","Breathing stops","Breathing always slows","Nothing happens",
+"High CO2 stimulates increased breathing to remove excess CO2."],
 
-{
-q:"Which organ system removes carbon dioxide?",
-o:["Respiratory system","Digestive system","Skeletal system","Reproductive system"],
-a:0,
-e:"The respiratory system removes carbon dioxide through the lungs."
-},
+["Which system removes carbon dioxide?",
+"Respiratory system","Digestive system","Skeletal system","Reproductive system",
+"The respiratory system removes carbon dioxide through the lungs."],
 
-{
-q:"What is the main purpose of sweating?",
-o:["Cooling the body","Increasing blood glucose","Digesting food","Producing red blood cells"],
-a:0,
-e:"Sweat evaporates from the skin and removes heat from the body."
-},
+["What is the main purpose of sweating?",
+"Cooling the body","Increasing blood glucose","Digesting food","Producing red blood cells",
+"Evaporation of sweat removes heat from the body."],
 
-{
-q:"What happens to skin blood vessels when the body is too hot?",
-o:["They dilate","They always constrict","They disappear","They stop carrying blood"],
-a:0,
-e:"Vasodilation increases blood flow near the skin surface, helping heat escape."
-},
+["What happens to skin blood vessels when the body is too hot?",
+"They dilate","They constrict","They disappear","They stop carrying blood",
+"Vasodilation increases heat loss through the skin."],
 
-{
-q:"What happens to skin blood vessels when the body is cold?",
-o:["They constrict","They dilate greatly","They burst","They stop existing"],
-a:0,
-e:"Vasoconstriction reduces blood flow near the skin and decreases heat loss."
-},
+["What happens to skin blood vessels when the body is cold?",
+"They constrict","They dilate greatly","They burst","They disappear",
+"Vasoconstriction reduces heat loss from the skin."],
 
-{
-q:"What is vasodilation?",
-o:["Widening of blood vessels","Narrowing of blood vessels","Formation of blood cells","Breaking down of glucose"],
-a:0,
-e:"Vasodilation means the widening of blood vessels."
-},
+["What is vasodilation?",
+"Widening of blood vessels","Narrowing of blood vessels","Formation of blood cells","Breakdown of glucose",
+"Vasodilation means widening of blood vessels."],
 
-{
-q:"What is vasoconstriction?",
-o:["Narrowing of blood vessels","Widening of blood vessels","Production of sweat","Digestion"],
-a:0,
-e:"Vasoconstriction means narrowing of blood vessels."
-},
+["What is vasoconstriction?",
+"Narrowing of blood vessels","Widening of blood vessels","Production of sweat","Digestion",
+"Vasoconstriction means narrowing of blood vessels."],
 
-{
-q:"Which structure detects changes in the internal environment?",
-o:["Receptor","Effector","Hormone only","Bone"],
-a:0,
-e:"Receptors detect changes or stimuli in the internal or external environment."
-},
+["Which structure detects changes in the environment?",
+"Receptor","Effector","Bone","Hormone only",
+"Receptors detect changes or stimuli."],
 
-{
-q:"What is an effector?",
-o:["A structure that produces a response","A structure that detects a stimulus","A type of blood cell","A digestive enzyme"],
-a:0,
-e:"An effector, such as a muscle or gland, carries out the response."
-},
+["What is an effector?",
+"A structure that produces a response","A structure that detects a stimulus","A blood cell","A digestive enzyme",
+"An effector such as a muscle or gland carries out a response."],
 
-{
-q:"Which is an example of an effector?",
-o:["Muscle","Receptor","Brain only","DNA"],
-a:0,
-e:"Muscles can act as effectors by producing a physical response."
-},
+["Which is an example of an effector?",
+"Muscle","Receptor","DNA","Bone marrow only",
+"Muscles can act as effectors by producing movement."],
 
-{
-q:"Which part of a homeostatic system compares conditions with the desired level?",
-o:["Control center","Receptor only","Effector only","Blood cell"],
-a:0,
-e:"The control center receives information and coordinates an appropriate response."
-},
+["Which part coordinates a homeostatic response?",
+"Control center","Receptor only","Effector only","Red blood cell",
+"The control center processes information and coordinates the response."],
 
-{
-q:"Which of these is a control center for body temperature?",
-o:["Hypothalamus","Kidney","Stomach","Pancreas"],
-a:0,
-e:"The hypothalamus acts as a major control center for thermoregulation."
-},
+["Which is the main temperature control center?",
+"Hypothalamus","Kidney","Stomach","Pancreas",
+"The hypothalamus helps control body temperature."],
 
-{
-q:"What is thermoregulation?",
-o:["Regulation of body temperature","Regulation of blood sugar only","Regulation of digestion","Regulation of bone growth"],
-a:0,
-e:"Thermoregulation is the maintenance of body temperature within a suitable range."
-},
+["What is thermoregulation?",
+"Regulation of body temperature","Regulation of digestion","Regulation of bone growth","Regulation of movement",
+"Thermoregulation keeps body temperature within a suitable range."],
 
-{
-q:"Which process helps produce heat in a cold body?",
-o:["Shivering","Sweating","Vasodilation","Rapid evaporation"],
-a:0,
-e:"Shivering produces heat through repeated involuntary muscle contractions."
-},
+["Which process produces heat in a cold body?",
+"Shivering","Sweating","Vasodilation","Evaporation",
+"Shivering produces heat through muscle contractions."],
 
-{
-q:"Which process helps lose heat?",
-o:["Sweating","Shivering","Vasoconstriction","Reduced blood flow to skin"],
-a:0,
-e:"Sweating helps cool the body through evaporation."
-},
+["Which process helps lose heat?",
+"Sweating","Shivering","Vasoconstriction","Reduced skin blood flow",
+"Sweating helps cool the body through evaporation."],
 
-{
-q:"Why is homeostasis important?",
-o:["It keeps conditions suitable for cells","It stops all body changes","It prevents growth","It stops metabolism"],
-a:0,
-e:"Cells need stable conditions such as temperature, pH, water, and glucose levels to function properly."
-},
+["Why is homeostasis important?",
+"It keeps conditions suitable for cells","It stops all body changes","It prevents growth","It stops metabolism",
+"Cells require stable conditions to function properly."],
 
-{
-q:"Which blood component helps transport hormones?",
-o:["Plasma","Platelets only","Red blood cells only","Bone"],
-a:0,
-e:"Many hormones are transported through the blood plasma."
-},
+["Which blood component transports many hormones?",
+"Plasma","Platelets only","Red blood cells only","Bone",
+"Many hormones are transported dissolved in blood plasma."],
 
-{
-q:"Which hormone is produced by the thyroid gland and helps regulate metabolic rate?",
-o:["Thyroxine","Insulin","ADH","Glucagon"],
-a:0,
-e:"Thyroxine helps regulate the body's metabolic rate."
-},
+["Which hormone helps regulate metabolic rate?",
+"Thyroxine","Insulin","ADH","Glucagon",
+"Thyroxine helps regulate metabolic rate."],
 
-{
-q:"Which gland produces thyroxine?",
-o:["Thyroid gland","Pancreas","Pituitary only","Adrenal medulla"],
-a:0,
-e:"The thyroid gland produces thyroxine."
-},
+["Which gland produces thyroxine?",
+"Thyroid gland","Pancreas","Adrenal gland","Kidney",
+"The thyroid gland produces thyroxine."],
 
-{
-q:"Which mineral is needed to make thyroid hormones?",
-o:["Iodine","Calcium","Iron only","Sodium only"],
-a:0,
-e:"Iodine is required for the production of thyroid hormones."
-},
+["Which mineral is needed to make thyroid hormones?",
+"Iodine","Calcium","Iron","Potassium",
+"Iodine is required for thyroid hormone production."],
 
-{
-q:"What can iodine deficiency cause?",
-o:["Goitre","Diabetes mellitus","Dehydration","Fever"],
-a:0,
-e:"Iodine deficiency can cause enlargement of the thyroid gland, known as a goitre."
-},
+["What can iodine deficiency cause?",
+"Goitre","Diabetes mellitus","Dehydration","Fever",
+"Iodine deficiency can cause enlargement of the thyroid called goitre."],
 
-{
-q:"Which hormone is associated with the fight-or-flight response?",
-o:["Adrenaline","Insulin","ADH","Thyroxine"],
-a:0,
-e:"Adrenaline prepares the body for rapid action during stressful situations."
-},
+["Which hormone is associated with the fight-or-flight response?",
+"Adrenaline","Insulin","ADH","Thyroxine",
+"Adrenaline prepares the body for rapid action."],
 
-{
-q:"Which gland releases adrenaline?",
-o:["Adrenal glands","Thyroid gland","Pancreas","Kidneys"],
-a:0,
-e:"The adrenal glands release adrenaline."
-},
+["Which glands release adrenaline?",
+"Adrenal glands","Thyroid glands","Pancreas","Pituitary gland",
+"The adrenal glands release adrenaline."],
 
-{
-q:"What does adrenaline generally do to heart rate?",
-o:["Increases it","Stops it","Always decreases it","Has no possible effect"],
-a:0,
-e:"Adrenaline generally increases heart rate to deliver more blood to active tissues."
-},
+["What does adrenaline generally do to heart rate?",
+"Increases it","Stops it","Always decreases it","Has no effect",
+"Adrenaline generally increases heart rate."],
 
-{
-q:"Which condition involves abnormally high blood glucose levels?",
-o:["Diabetes mellitus","Anaemia","Goitre","Dehydration"],
-a:0,
-e:"Diabetes mellitus is characterized by chronically elevated blood glucose levels."
-},
+["Which condition involves abnormally high blood glucose?",
+"Diabetes mellitus","Anaemia","Goitre","Dehydration",
+"Diabetes mellitus involves chronically elevated blood glucose."],
 
-{
-q:"What is the role of insulin after a meal?",
-o:["Helps lower blood glucose","Raises blood glucose","Stops digestion","Removes
-{
-q:"What is the role of insulin after a meal?",
-o:["Helps lower blood glucose","Raises blood glucose","Stops digestion","Removes
+["What is the role of insulin after a meal?",
+"It helps lower blood glucose","It raises blood glucose","It stops digestion","It removes carbon dioxide",
+"Insulin helps cells take up glucose after a meal."],
+
+["What happens to blood glucose after glucagon is released?",
+"It increases","It becomes zero","It always decreases","It does not change",
+"Glucagon raises blood glucose by promoting glucose release."],
+
+["Where is glycogen mainly stored?",
+"Liver and muscles","Lungs only","Brain only","Skin only",
+"Glycogen is stored mainly in the liver and skeletal muscles."],
+
+["What is glycogen?",
+"A storage form of glucose","A digestive enzyme","A hormone","A waste product",
+"Glycogen is the storage form of glucose in animals."],
+
+["Which organ stores and releases glucose to help regulate blood glucose?",
+"Liver","Heart","Lung","Skin",
+"The liver stores glucose as glycogen and can release glucose when needed."],
+
+["What is a stimulus?",
+"A change detected by a receptor","A type of hormone","A waste product","A blood cell",
+"A stimulus is a change that can be detected by a receptor."],
+
+["What is a response?",
+"The reaction to a stimulus","A type of enzyme","A blood vessel","A mineral",
+"A response is the reaction produced after a stimulus."],
+
+["Which structure receives information from receptors?",
+"Control center","Bone","Stomach","Red blood cell",
+"The control center receives information and coordinates a response."],
+
+["Which structure carries out many homeostatic responses?",
+"Muscle or gland","DNA","Bone","Red blood cell",
+"Muscles and glands can act as effectors."],
+
+["What is positive feedback?",
+"A response that amplifies a change","A response that reverses every change","No response","Permanent inactivity",
+"Positive feedback increases or amplifies the original change."],
+
+["Which is an example of positive feedback?",
+"Childbirth contractions","Body temperature regulation","Blood glucose regulation","Water balance",
+"During childbirth, contractions stimulate further contractions."],
+
+["Which is usually an example of negative feedback?",
+"Body temperature regulation","Blood clotting only","Childbirth only","Fruit ripening",
+"Thermoregulation is controlled mainly by negative feedback."],
+
+["What happens when blood water content is too low?",
+"ADH secretion increases","ADH secretion decreases","Sweating always stops","Kidneys stop working",
+"Low water content stimulates ADH release."],
+
+["What happens when blood water content is too high?",
+"ADH secretion decreases","ADH secretion increases greatly","Urine becomes concentrated","Water reabsorption increases",
+"Lower ADH allows more water to be lost in urine."],
+
+["What happens to urine when ADH concentration decreases?",
+"It becomes more dilute","It becomes more concentrated","It becomes blood","Urine production stops",
+"Less ADH means less water reabsorption and more dilute urine."],
+
+["Which organ is responsible for filtration of blood to form urine?",
+"Kidney","Liver","Heart","Lung",
+"The kidneys filter blood and form urine."],
+
+["What is excretion?",
+"Removal of metabolic waste","Taking in food","Growth of cells","Movement of muscles",
+"Excretion is the removal of metabolic waste from the body."],
+
+["Which substance is a nitrogenous waste?",
+"Urea","Oxygen","Glucose","Water",
+"Urea is a nitrogenous waste product."],
+
+["Which process removes excess carbon dioxide?",
+"Exhalation","Digestion","Filtration by skin","Bone formation",
+"Carbon dioxide leaves the body when we exhale."],
+
+["Why does breathing rate increase during exercise?",
+"To supply more oxygen and remove more carbon dioxide","To stop metabolism","To reduce oxygen intake","To stop the heart",
+"Exercise increases demand for oxygen and production of carbon dioxide."],
+
+["What happens to body temperature during exercise?",
+"It may increase","It always becomes 20°C","It always decreases","It becomes zero",
+"Muscle activity produces heat, so body temperature may rise."],
+
+["Which response helps cool the body during exercise?",
+"Sweating","Shivering","Vasoconstriction","Reduced skin blood flow",
+"Sweating and increased skin blood flow help remove heat."],
+
+["Which response helps conserve heat?",
+"Vasoconstriction","Sweating","Vasodilation","Increased evaporation",
+"Vasoconstriction reduces heat loss through the skin."],
+
+["What is the role of receptors in homeostasis?",
+"To detect changes","To produce urine","To digest food","To pump blood",
+"Receptors detect changes in internal or external conditions."],
+
+["What is the role of effectors?",
+"To carry out a response","To detect all stimuli","To produce DNA","To filter blood",
+"Effectors carry out responses, usually through muscles or glands."],
+
+["What is the internal environment?",
+"The conditions inside the body","The outside air only","Food in the stomach only","The classroom",
+"The internal environment includes conditions surrounding body cells."],
+
+["Which factor must be kept within suitable limits for cells?",
+"pH","Hair length","Height","Eye color",
+"Cells require a suitable pH for enzymes and other processes to work."],
+
+["What can happen if homeostasis fails?",
+"Cells may not function properly","All cells become stronger","Metabolism stops forever","The body needs no energy",
+"Failure of homeostasis can disturb normal cell function."],
+
+["Which organ helps regulate the chemical composition of blood?",
+"Kidney","Ear","Eye","Skin only",
+"The kidneys regulate water, ions and waste products in the blood."],
+
+["Which hormone helps the body conserve water?",
+"ADH","Glucagon","Insulin","Adrenaline",
+"ADH promotes water reabsorption by the kidneys."],
+
+["What does ADH stand for?",
+"Antidiuretic hormone","Anti-digestive hormone","Active digestive hormone","Adrenal digestive hormone",
+"ADH stands for antidiuretic hormone."],
+
+["Which gland is often called the master gland?",
+"Pituitary gland","Pancreas","Thyroid gland","Adrenal gland",
+"The pituitary controls several other endocrine glands."],
+
+["What is an endocrine hormone?",
+"A chemical messenger","A type of bone","A waste product","A blood cell",
+"Hormones are chemical messengers carried through the blood."],
+
+["How do hormones usually reach target organs?",
+"Through the bloodstream","Through bones","Through air","Through the digestive tract only",
+"Endocrine hormones are transported through the bloodstream."],
+
+["What is the main goal of homeostasis?",
+"To maintain internal stability","To stop all movement","To prevent all changes","To stop respiration",
+"The main goal is to maintain relatively stable internal conditions."]
+];
+
+let current = 0;
+let score = 0;
+let student = "";
+let answered = false;
+let correctIndex = 0;
+
+function startTest(){
+  const name = document.getElementById("studentName").value.trim();
+
+  if(name === ""){
+    alert("Please enter your name.");
+    return;
+  }
+
+  student = name;
+  current = 0;
+  score = 0;
+
+  document.getElementById("start").style.display = "none";
+  document.getElementById("test").style.display = "block";
+
+  showQuestion();
+}
+
+function showQuestion(){
+
+  answered = false;
+
+  const q = questions[current];
+
+  document.getElementById("progress").textContent =
+    "Question " + (current + 1) + " of " + questions.length;
+
+  document.getElementById("question").textContent = q[0];
+
+  const optionsBox = document.getElementById("options");
+  optionsBox.innerHTML = "";
+
+  document.getElementById("feedback").innerHTML = "";
+
+  document.getElementById("nextBtn").style.display = "none";
+
+  let choices = [
+    {text:q[1], correct:true},
+    {text:q[2], correct:false},
+    {text:q[3], correct:false},
+    {text:q[4], correct:false}
+  ];
+
+  /* Different option order for different questions */
+  let shift = current % 4;
+  let ordered = choices.slice(shift).concat(choices.slice(0,shift));
+
+  ordered.forEach(function(choice,index){
+
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = String.fromCharCode(65 + index) + ". " + choice.text;
+
+    btn.onclick = function(){
+      checkAnswer(index, ordered);
+    };
+
+    optionsBox.appendChild(btn);
+
+    if(choice.correct){
+      correctIndex = index;
+    }
+  });
+}
+
+function checkAnswer(selected, ordered){
+
+  if(answered) return;
+
+  answered = true;
+
+  const buttons = document.querySelectorAll(".option");
+
+  buttons.forEach(function(btn,index){
+
+    btn.disabled = true;
+
+    if(ordered[index].correct){
+      btn.classList.add("correct");
+    }
+
+    if(index === selected && !ordered[index].correct){
+      btn.classList.add("wrong");
+    }
+  });
+
+  const feedback = document.getElementById("feedback");
+
+  if(selected === correctIndex){
+
+    score++;
+
+    feedback.innerHTML =
+      '<div class="explanation"><b>Correct! ✓</b><br>' +
+      questions[current][5] +
+      '</div>';
+
+  }else{
+
+    feedback.innerHTML =
+      '<div class="explanation">' +
+      '<b>Wrong ✗</b><br>' +
+      '<b>Correct Answer:</b> ' +
+      ordered[correctIndex].text +
+      '<br><br>' +
+      '<b>Explanation:</b> ' +
+      questions[current][5] +
+      '</div>';
+  }
+
+  document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function nextQuestion(){
+
+  if(!answered) return;
+
+  current++;
+
+  if(current < questions.length){
+
+    showQuestion();
+
+  }else{
+
+    showResult();
+  }
+}
+
+function showResult(){
+
+  document.getElementById("test").style.display = "none";
+  document.getElementById("result").style.display = "block";
+
+  const total = questions.length;
+  const percentage = ((score / total) * 100).toFixed(2);
+
+  document.getElementById("studentResult").textContent =
+    "Student: " + student;
+
+  document.getElementById("score").textContent =
+    "Score: " + score + " / " + total;
+
+  document.getElementById("percentage").textContent =
+    "Percentage: " + percentage + "%";
+}
+
+</script>
+
+</body>
+</html>
